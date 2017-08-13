@@ -1,7 +1,8 @@
+//npm packages required ///////////////////////////////////////////////
 var mysql = require("mysql");
 var inquirer = require('inquirer');
-//var productID = 0;
-//var quantityNum = "";
+
+//database credentials ///////////////////////////////////////////////
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -14,10 +15,13 @@ var connection = mysql.createConnection({
   database: "bamazon_db"
 });
 
+//connection to database /////////////////////////////////////////////////
 connection.connect(function(err) {
   if (err) throw err;
 });
 
+
+//query from database table and display //////////////////////////////////
 connection.query("SELECT * FROM products", function(err, res) {
     console.log( "Id | Product | Price")
     console.log("----------------------")
@@ -29,7 +33,7 @@ connection.query("SELECT * FROM products", function(err, res) {
 
   });
 
-    // Ask user what which productID /////////////////////////////////////////////
+// Ask user what which productID /////////////////////////////////////////////
 function userSelection(res){
    inquirer.prompt([
 {
@@ -49,10 +53,11 @@ function userSelection(res){
               ]).then(function(inquirerResponse) {
                   var quantityNum = inquirerResponse.userChoice
                   checkQuantity(productID, quantityNum);
-              })  //end iquirer
-      })  //end iquirer
+              })  //end inquirer
+      })  //end inquirer
 }
 
+// checking for sufficient inventory ///////////////////////////////////////
 function checkQuantity(productID, quantityNum){
 
   var query = "SELECT * FROM products";
@@ -78,7 +83,7 @@ function checkQuantity(productID, quantityNum){
 
 }
 
-
+// updating inventory and display order total ///////////////////////////////////
 function updateFinalize(productID, quantityNew, prodCost){
   connection.query(
       "UPDATE products SET ? WHERE ?",

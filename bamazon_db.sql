@@ -5,6 +5,7 @@ CREATE DATABASE bamazon_db;
 
 USE bamazon_db;
 
+-- create table columns
 CREATE TABLE products(
   id INTEGER(11) AUTO_INCREMENT NOT NULL,
   item_id INTEGER(15),
